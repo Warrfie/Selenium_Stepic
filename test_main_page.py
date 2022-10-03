@@ -2,6 +2,7 @@ import time
 
 import pytest
 
+from pages.basket_page import BasketPage
 from pages.locators import MainPageLocators
 from pages.login_page import LoginPage
 from pages.product_page import ProductPage
@@ -17,6 +18,7 @@ def test_guest_should_see_login_link_on_product_page(browser):
     page = ProductPage(browser, link)
     page.open()
     page.should_be_login_link()
+    time.sleep(2000)
 
 
 def test_guest_can_go_to_login_page(browser):
@@ -83,3 +85,17 @@ def test_message_disappeared_after_adding_product_to_basket(browser):
     page.add_to_card()
     page.solve_quiz_and_get_code()
     page.should_disappeared_message()
+
+def test_guest_cant_see_product_in_basket_opened_from_main_page(browser):
+    page = ProductPage(browser, home_link)
+    page.open()
+    page.go_to_basket_page()
+    basket_page = BasketPage(browser, browser.current_url)
+    basket_page.should_be_clear()
+
+def test_guest_cant_see_product_in_basket_opened_from_product_page(browser):
+    page = ProductPage(browser, another_item_link)
+    page.open()
+    page.go_to_basket_page()
+    basket_page = BasketPage(browser, browser.current_url)
+    basket_page.should_be_clear()
