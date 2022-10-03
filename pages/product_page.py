@@ -1,7 +1,7 @@
 import math
 
 from .base_page import BasePage
-from .locators import MainPageLocators
+from .locators import MainPageLocators, ProductPageLocators
 from selenium.common.exceptions import NoAlertPresentException
 
 
@@ -49,3 +49,9 @@ class ProductPage(BasePage):
     def compare_notifications_and_real(self):
         assert self.product_price == self.browser.find_element(*MainPageLocators.BOOK_PRICE_NOTIFICATION).text, "Real price and cart price not equal"
         assert self.product_name == self.browser.find_element(*MainPageLocators.BOOK_NAME_NOTIFICATION).text, "Real name and notification name not equal"
+
+    def should_not_be_success_message(self):
+        assert self.is_not_element_present(*ProductPageLocators.SUCCESS_MESSAGE), "Success message is presented, but should not be"
+
+    def should_disappeared_message(self):
+        assert self.is_not_element_present(*ProductPageLocators.SUCCESS_MESSAGE), "Success message is presented, but should not be"

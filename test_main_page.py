@@ -12,16 +12,18 @@ new_year_link = "http://selenium1py.pythonanywhere.com/catalogue/the-shellcoders
 another_item_link = "http://selenium1py.pythonanywhere.com/catalogue/coders-at-work_207/?promo=newYear2019"
 
 
-def test_guest_should_see_login_link(browser):
-    page = MainPage(browser, home_link)
+def test_guest_should_see_login_link_on_product_page(browser):
+    link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
+    page = ProductPage(browser, link)
     page.open()
     page.should_be_login_link()
 
 
 def test_guest_can_go_to_login_page(browser):
-    page = MainPage(browser, home_link)
+    link = "http://selenium1py.pythonanywhere.com/en-gb/catalogue/the-city-and-the-stars_95/"
+    page = ProductPage(browser, link)
     page.open()
-    #login_page = page.go_to_login_page()
+    page.should_be_login_link()
     page.go_to_login_page()
     login_page = LoginPage(browser, browser.current_url)
     login_page.should_be_login_page()
@@ -61,3 +63,23 @@ def test_guest_can_add_product_to_basket(browser, link):
     page.add_to_card()
     page.solve_quiz_and_get_code()
     page.compare_notifications_and_real()
+
+
+def test_guest_cant_see_success_message_after_adding_product_to_basket(browser):
+    page = ProductPage(browser, another_item_link)
+    page.open()
+    page.add_to_card()
+    page.solve_quiz_and_get_code()
+    page.should_not_be_success_message()
+
+def test_guest_cant_see_success_message(browser):
+    page = ProductPage(browser, another_item_link)
+    page.open()
+    page.should_not_be_success_message()
+
+def test_message_disappeared_after_adding_product_to_basket(browser):
+    page = ProductPage(browser, another_item_link)
+    page.open()
+    page.add_to_card()
+    page.solve_quiz_and_get_code()
+    page.should_disappeared_message()
