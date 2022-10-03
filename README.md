@@ -1,1 +1,1 @@
-# Selenium_Stepic
+# Итоговый проект для Stepik "Автоматизация тестирования с помощью Selenium и Python"
